@@ -49,7 +49,7 @@ S, M, and L denote hidden widths of **32, 64, and 128**. Bold values identify th
 
 ## Data
 
-Download [**STFO_data.zip**](https://github.com/Xielewei/STFO/releases/download/v1.0.0/STFO_data.zip) from the [data release](https://github.com/Xielewei/STFO/releases/tag/v1.0.0). The archive is approximately **197 MiB** and contains **45 files across 15 periods**: time series, graphs, and aligned sensor metadata.
+Download [**STFO_data.zip**](https://github.com/Xielewei/Spatio-Temporal-Field-Operator/releases/download/v1.0.0/STFO_data.zip) from the [data release](https://github.com/Xielewei/Spatio-Temporal-Field-Operator/releases/tag/v1.0.0). The archive is approximately **197 MiB** and contains **45 files across 15 periods**: time series, graphs, and aligned sensor metadata.
 
 | Dataset | Periods | Configuration | Default model |
 | --- | --- | --- | --- |
@@ -60,8 +60,18 @@ Download [**STFO_data.zip**](https://github.com/Xielewei/STFO/releases/download/
 From the repository directory:
 
 ```bash
-curl -L --fail -o STFO_data.zip https://github.com/Xielewei/STFO/releases/download/v1.0.0/STFO_data.zip
-curl -L --fail -o SHA256SUMS.txt https://github.com/Xielewei/STFO/releases/download/v1.0.0/SHA256SUMS.txt
+curl -L --fail -o STFO_data.zip https://github.com/Xielewei/Spatio-Temporal-Field-Operator/releases/download/v1.0.0/STFO_data.zip
+curl -L --fail -o SHA256SUMS.txt https://github.com/Xielewei/Spatio-Temporal-Field-Operator/releases/download/v1.0.0/SHA256SUMS.txt
+sha256sum --check SHA256SUMS.txt
+unzip STFO_data.zip -d .
+```
+
+For a private repository, authenticate with the GitHub CLI and download the release assets instead:
+
+```bash
+gh auth login
+gh release download v1.0.0 --repo Xielewei/Spatio-Temporal-Field-Operator \
+  --pattern STFO_data.zip --pattern SHA256SUMS.txt
 sha256sum --check SHA256SUMS.txt
 unzip STFO_data.zip -d .
 ```
@@ -77,8 +87,8 @@ See [data format and preprocessing](docs/data.md) for file schemas, sensor align
 Use **Python 3.11** in an isolated environment:
 
 ```bash
-git clone https://github.com/Xielewei/STFO.git
-cd STFO
+git clone https://github.com/Xielewei/Spatio-Temporal-Field-Operator.git
+cd Spatio-Temporal-Field-Operator
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -135,7 +145,7 @@ The run directory also contains the runtime log. Use `--output` for a different 
 ## Repository structure
 
 ```text
-STFO/
+Spatio-Temporal-Field-Operator/
 ├── main.py                 # Training and evaluation entry point
 ├── conf/                   # Three dataset configurations
 ├── src/
