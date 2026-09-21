@@ -1,0 +1,39 @@
+{
+  "batch_size": 64,
+  "begin_year": 2016,
+  "checkpoint_soup_epsilon": 0.0001,
+  "checkpoint_soup_top_k": 3,
+  "coord_chart_scope": "per_period",
+  "coord_id_column": "station_code",
+  "coord_path": "AIR/coordinates/stfo_air_{year}_node_coordinates_reconciled.csv",
+  "coord_require_nested": true,
+  "dataset": "AIR",
+  "end_year": 2019,
+  "epoch": 200,
+  "grad_clip": 5.0,
+  "lr": 0.01,
+  "model": {
+    "attn_dim": 32,
+    "dfo_layers": 1,
+    "grid_size": 32,
+    "hidden_channel": 32,
+    "in_channel": 12,
+    "modes": 4,
+    "num_bands": 3,
+    "num_fourier": 16,
+    "out_channel": 12,
+    "query_chunk_size": 512,
+    "use_skip": true
+  },
+  "normalize_y": true,
+  "null_val": "nan",
+  "num_workers": 16,
+  "patience": 10,
+  "static_categorical_columns": [],
+  "static_numeric_columns": [
+    "longitude",
+    "latitude"
+  ],
+  "x_len": 12,
+  "y_len": 12
+}

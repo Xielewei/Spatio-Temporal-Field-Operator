@@ -1,0 +1,6 @@
+numpy>=1.26,<3
+scipy>=1.11,<2
+networkx>=3.2,<4
+torch>=2.5,<3
+torch-geometric>=2.6,<3
+tqdm>=4.66,<5

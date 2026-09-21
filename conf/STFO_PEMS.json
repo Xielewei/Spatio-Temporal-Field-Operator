@@ -1,0 +1,47 @@
+{
+  "batch_size": 64,
+  "begin_year": 2011,
+  "checkpoint_soup_epsilon": 0.0001,
+  "checkpoint_soup_top_k": 3,
+  "coord_chart_scope": "per_period",
+  "coord_id_column": "station_id",
+  "coord_path": "PEMS/coordinates/{year}.csv",
+  "coord_require_nested": true,
+  "dataset": "PEMS",
+  "end_year": 2017,
+  "epoch": 200,
+  "grad_clip": 5.0,
+  "lr": 0.005,
+  "model": {
+    "attn_dim": 32,
+    "dfo_layers": 2,
+    "grid_size": 32,
+    "hidden_channel": 128,
+    "in_channel": 12,
+    "modes": 4,
+    "num_bands": 4,
+    "num_fourier": 16,
+    "out_channel": 12,
+    "query_chunk_size": 512,
+    "use_skip": true
+  },
+  "normalize_y": true,
+  "null_val": "nan",
+  "num_workers": 16,
+  "patience": 10,
+  "static_blend_alpha": 0.025,
+  "static_categorical_columns": [
+    "county",
+    "freeway",
+    "direction",
+    "station_type"
+  ],
+  "static_numeric_columns": [
+    "longitude",
+    "latitude",
+    "abs_pm",
+    "lanes"
+  ],
+  "x_len": 12,
+  "y_len": 12
+}

@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+.idea/
+.vscode/
+.DS_Store
+.ruff_cache/
+/data/
+/outputs/
+*.log
+*.pkl
+*.pt
+*.npz
+*.zip
