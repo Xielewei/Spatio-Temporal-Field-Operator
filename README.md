@@ -16,7 +16,7 @@ This repository provides the PyTorch implementation of **STFO (Spatio-Temporal F
 
 Sensor expansion changes the observations available about a process without necessarily changing its underlying dynamics. STFO learns forecasting knowledge on a shared latent field, using coordinate-based interfaces to incorporate observations and query predictions. The same parameter set is fine-tuned across periods without growing with the number of sensors.
 
-![STFO framework: continual forecasting under sensor expansion, with CFE, SRE, DFO, and CQD.](assets/overview.png)
+[![STFO framework: continual forecasting under sensor expansion, with CFE, SRE, DFO, and CQD.](assets/overview.png)](assets/overview.pdf)
 
 The model consists of four modules:
 
