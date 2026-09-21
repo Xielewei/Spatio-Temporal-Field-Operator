@@ -1,22 +1,50 @@
+<a id="top"></a>
+
 <div align="center">
 
-# STFO
+<img src="assets/banner.svg" alt="STFO — Spatio-Temporal Field Operator" width="100%" />
 
-### More Sensors Only One Field: Rethinking Continual Spatio-Temporal Forecasting
+### More Sensors Only One Field:<br>Rethinking Continual Spatio-Temporal Forecasting
 
 **A shared field-evolution operator for forecasting with expanding sensor networks.**
 
-[Overview](#overview) · [Results](#results) · [Data](#data) · [Getting started](#getting-started) · [Citation](#citation) · [Acknowledgments](#acknowledgments)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)](requirements.txt)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.5%2B-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](requirements.txt)
+[![Models](https://img.shields.io/badge/Models-S%20%C2%B7%20M%20%C2%B7%20L-226B80?style=flat-square)](#results)
+[![Data release](https://img.shields.io/badge/Data-3%20datasets-C48660?style=flat-square)](https://github.com/Xielewei/Spatio-Temporal-Field-Operator/releases/tag/v1.0.0)
+
+[🔎 Overview](#overview) &nbsp;·&nbsp; [📊 Results](#results) &nbsp;·&nbsp; [📦 Data](#data) &nbsp;·&nbsp; [🚀 Quick start](#getting-started) &nbsp;·&nbsp; [📝 Citation](#citation)
 
 </div>
 
-## Overview
+---
+
+<a id="overview"></a>
+
+## 🔎 Overview
 
 This repository provides the PyTorch implementation of **STFO (Spatio-Temporal Field Operator)** and its main experiments on **PEMS-Stream**, **CA-Stream**, and **AIR-Stream**.
 
 Sensor expansion changes the observations available about a process without necessarily changing its underlying dynamics. STFO learns forecasting knowledge on a shared latent field, using coordinate-based interfaces to incorporate observations and query predictions. The same parameter set is fine-tuned across periods without growing with the number of sensors.
 
+<table>
+<tr>
+<td align="center" width="33%"><b>🌐 Shared field</b><br><sub>A common latent grid across sensor layouts</sub></td>
+<td align="center" width="33%"><b>〰️ Adaptive evolution</b><br><sub>Spectral conditioning for changing dynamics</sub></td>
+<td align="center" width="33%"><b>📍 Coordinate queries</b><br><sub>Forecasts at sensor locations</sub></td>
+</tr>
+</table>
+
+<div align="center">
+
 [![STFO framework: continual forecasting under sensor expansion, with CFE, SRE, DFO, and CQD.](assets/overview.png)](assets/overview.pdf)
+
+<sub><b>STFO at a glance.</b> Click the framework to open the original vector PDF.</sub>
+
+</div>
+
+<details>
+<summary><b>🧩 Explore the four model components</b></summary>
 
 The model consists of four modules:
 
@@ -29,7 +57,11 @@ The model consists of four modules:
 
 The complete model, including the local-history branch, is in [model.py](src/model/stfo/model.py).
 
-## Results
+</details>
+
+<a id="results"></a>
+
+## 📊 Results
 
 STFO results from **Table 1** of the paper. Values are **mean ± standard deviation over three runs**, using the table's **Avg.** horizon setting. Lower is better; MAPE is in percent.
 
@@ -47,7 +79,9 @@ STFO results from **Table 1** of the paper. Values are **mean ± standard deviat
 
 S, M, and L denote hidden widths of **32, 64, and 128**. Bold values identify the best STFO variant within each dataset and metric.
 
-## Data
+<a id="data"></a>
+
+## 📦 Data
 
 Download [**STFO_data.zip**](https://github.com/Xielewei/Spatio-Temporal-Field-Operator/releases/download/v1.0.0/STFO_data.zip) from the [data release](https://github.com/Xielewei/Spatio-Temporal-Field-Operator/releases/tag/v1.0.0). The archive is approximately **197 MiB** and contains **45 files across 15 periods**: time series, graphs, and aligned sensor metadata.
 
@@ -80,9 +114,11 @@ This creates `data/PEMS/`, `data/CA/`, and `data/AIR/`. The first run builds the
 
 See [data format and preprocessing](docs/data.md) for file schemas, sensor alignment, coordinate construction, and split details.
 
-## Getting started
+<a id="getting-started"></a>
 
-### Installation
+## 🚀 Getting started
+
+### 1 · Set up the environment
 
 Use **Python 3.11** in an isolated environment:
 
@@ -96,7 +132,7 @@ python -m pip install -r requirements.txt
 
 The main dependencies are PyTorch, PyTorch Geometric, NumPy, SciPy, NetworkX, and tqdm; version ranges are recorded in [requirements.txt](requirements.txt). GPU training requires a CUDA-enabled PyTorch installation. Use `--gpuid -1` for CPU execution.
 
-### Train
+### 2 · Train STFO
 
 After downloading the data, run from the repository directory:
 
@@ -113,11 +149,16 @@ python main.py --conf conf/STFO_AIR.json --size S --seed 42 --gpuid 0
 
 To reproduce all STFO variants in Table 1, run each dataset with `--size S`, `--size M`, and `--size L`, and repeat each setting with seeds **42, 43, and 44**. Omitting `--size` uses the dataset defaults listed above. Other model and optimization settings are supplied by the dataset configuration.
 
+<details>
+<summary><b>⚙️ Training protocol and checkpoint selection</b></summary>
+
 Each run trains on the first period and fine-tunes sequentially on subsequent periods. The protocol uses 12 history steps, 12 forecast steps, chronological 60%/20%/20% train/validation/test splits, AdamW, masked MAE, gradient clipping, and validation-based early stopping.
 
 Checkpoint selection compares the best individual validation checkpoint with averages of up to three leading checkpoints. An average is accepted only when validation MAE improves by more than `0.0001`. Test data is used for final evaluation.
 
-### Evaluate
+</details>
+
+### 3 · Evaluate checkpoints
 
 Re-evaluate the validation-selected checkpoints from a completed run:
 
@@ -128,7 +169,8 @@ python main.py --conf outputs/PEMS_STFO-L_seed42/config.json \
 
 Pass the same `--data-root` if the data is stored externally. Evaluation writes `evaluation.csv` and `evaluation.json` in the run directory.
 
-### Outputs and options
+<details>
+<summary><b>📁 Output files and additional options</b></summary>
 
 Training writes to `outputs/{dataset}_STFO-{size}_seed{seed}/`:
 
@@ -142,7 +184,11 @@ Training writes to `outputs/{dataset}_STFO-{size}_seed{seed}/`:
 
 The run directory also contains the runtime log. Use `--output` for a different destination; training requires a new or empty output directory. `--workers` and `--epochs` override the corresponding configuration values. Run `python main.py --help` for all options.
 
-## Repository structure
+</details>
+
+<a id="repository-structure"></a>
+
+## 🗂️ Repository structure
 
 ```text
 Spatio-Temporal-Field-Operator/
@@ -158,12 +204,25 @@ Spatio-Temporal-Field-Operator/
 └── requirements.txt        # Python dependencies
 ```
 
-## Citation
+<a id="citation"></a>
+
+## 📝 Citation
 
 The paper is titled **More Sensors Only One Field: Rethinking Continual Spatio-Temporal Forecasting**. The arXiv link and BibTeX citation will be added when the preprint is available.
 
-## Acknowledgments
+<a id="acknowledgments"></a>
+
+## 🤝 Acknowledgments
 
 We thank the authors of [**STBP**](https://github.com/Aoyu-Liu/STBP) for sharing their continual forecasting benchmark and implementation. Our continual data pipeline is adapted from their repository.
 
 We also thank [**EAC**](https://github.com/Onedean/EAC) for making continual forecasting datasets and code available to the community, and the original dataset providers for their contributions.
+
+---
+
+<div align="center">
+
+<sub>STFO · Spatio-Temporal Field Operator</sub><br>
+[↑ Back to top](#top)
+
+</div>
