@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="assets/banner.svg" alt="STFO — Spatio-Temporal Field Operator" width="100%" />
+<img src="assets/banner.png" alt="STFO — Spatio-Temporal Field Operator" width="100%" />
 
 ### More Sensors Only One Field:<br>Rethinking Continual Spatio-Temporal Forecasting
 
